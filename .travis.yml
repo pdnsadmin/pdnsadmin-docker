@@ -12,4 +12,5 @@ install:
   - docker ps -a
 
 script:
-  - docker exec -it pdnsadmin curl -I localhost
+  - curl -I $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pdnsadmin)
+  
