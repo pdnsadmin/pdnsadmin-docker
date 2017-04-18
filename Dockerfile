@@ -66,6 +66,6 @@ RUN chmod +x /entrypoint.sh
 
 ############### EXPOSE PORT ###############
 # Expose the ports for nginx
-EXPOSE 80
+EXPOSE 80/tcp
 
 ENTRYPOINT ["/entrypoint.sh"]
