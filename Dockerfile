@@ -2,13 +2,14 @@ FROM alpine:edge
 
 MAINTAINER Chuyen Pham <pkchuyen@gmail.com>
 
-ENV composer_hash 55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30
+ENV composer_hash 669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410
 
 # Add repository source for php7
 # RUN echo -e "http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
 # install php7
-RUN apk --no-cache --update add \
+RUN apk upgrade -q -U -a \
+ && apk --no-cache --update add \
 # install APP
         bash \
         git \
@@ -61,7 +62,7 @@ COPY php7/php.ini /etc/php7/conf.d/50-setting.ini
 COPY php7/php-fpm.conf /etc/php7/php-fpm.conf
 
 # Starting scripts
-ADD scripts/entrypoint.sh /
+ADD script/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 ############### EXPOSE PORT ###############
