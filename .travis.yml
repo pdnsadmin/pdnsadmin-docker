@@ -13,4 +13,15 @@ install:
 
 script:
   - curl -I $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pdnsadmin)
-  
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then
+    docker tag $(docker images | grep pdnsadmin | awk '{print $3}') pdnsadmin/pdnsadmin:dev;
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push pdnsadmin/pdnsadmin:dev;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker tag $(docker images | grep pdnsadmin | awk '{print $3}') pdnsadmin/pdnsadmin:latest;
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push pdnsadmin/pdnsadmin:latest;
+    fi
