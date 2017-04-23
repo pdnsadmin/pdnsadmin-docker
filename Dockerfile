@@ -8,7 +8,8 @@ ENV composer_hash 669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190
 # RUN echo -e "http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
 # install php7
-RUN apk upgrade -q -U -a \
+RUN echo "http://dl-4.alpinelinux.org/alpine/v3.5/main" >> /etc/apk/repositories \
+ && apk upgrade -q -U -a \
  && apk --no-cache --update add \
 # install APP
         bash \
