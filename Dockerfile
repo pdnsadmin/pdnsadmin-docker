@@ -37,6 +37,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/v3.5/main" >> /etc/apk/repositories
         php7-iconv \
         php7-phar \
         php7-openssl \
+        php7-tokenizer \
 # install composer
     # && ln -s /usr/bin/php7 /usr/bin/php \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
