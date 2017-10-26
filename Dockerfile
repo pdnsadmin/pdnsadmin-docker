@@ -1,17 +1,11 @@
-FROM alpine:edge
+FROM alpine:latest
 
 MAINTAINER Chuyen Pham <pkchuyen@gmail.com>
 
-ENV composer_hash 669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410
-
-# Add repository source for php7
-# RUN echo -e "http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-
-# install php7
-RUN echo "http://dl-4.alpinelinux.org/alpine/v3.5/main" >> /etc/apk/repositories \
- && apk upgrade -q -U -a \
+# install all require softwares for pdnsadmin app
+RUN  apk upgrade -q -U -a \
  && apk --no-cache --update add \
-# install APP
+# install Tools
         bash \
         git \
         nginx \
@@ -39,9 +33,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/v3.5/main" >> /etc/apk/repositories
         php7-openssl \
         php7-tokenizer \
 # install composer
-    # && ln -s /usr/bin/php7 /usr/bin/php \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('SHA384', 'composer-setup.php') === '${composer_hash}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/bin --filename=composer \
     && php -r "unlink('composer-setup.php');" \
 # Setup pdnsadmin source code
@@ -64,7 +56,7 @@ COPY php7/php.ini /etc/php7/conf.d/50-setting.ini
 COPY php7/php-fpm.conf /etc/php7/php-fpm.conf
 
 # Starting scripts
-ADD script/entrypoint.sh /
+ADD ./script/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 ############### EXPOSE PORT ###############
